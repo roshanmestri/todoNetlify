@@ -31,7 +31,7 @@ const TodoCard = (props) => {
             <Col xl={4} onClick={() => navigate(`/todos/${id}`)} >
             <StyledCard className="mt-5">
                 <div className="d-flex">
-                  <img  style={{width:"10rem", height:"10rem"}} src="https://media.istockphoto.com/id/1219481917/photo/good-job-youre-the-man-well-done-way-to-go-write-on-a-sticky-note-isolated-on-office-desk.jpg?s=612x612&w=0&k=20&c=yBjUbyf72Z81fJYyQzl-2863aLCMxuUKlbi5eUu_Umg=" alt="" />
+                  <img  style={{width:"5rem", height:"5rem"}} src="https://media.istockphoto.com/id/1219481917/photo/good-job-youre-the-man-well-done-way-to-go-write-on-a-sticky-note-isolated-on-office-desk.jpg?s=612x612&w=0&k=20&c=yBjUbyf72Z81fJYyQzl-2863aLCMxuUKlbi5eUu_Umg=" alt="" />
                     <div className="ml-4 mt-3">
                         <h4 style={{ fontSize: "21px", fontWeight: "600" }}>{`Is todo completed : ${completed}`}{completed}</h4>
                         <div >

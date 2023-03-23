@@ -31,26 +31,21 @@ function Todos() {
   function Onsubmit(e) {
     e.preventDefault();
     axios
+
+    //Post Request and saving Item in react state
       .post("https://jsonplaceholder.typicode.com/todos", {
         userId: TodoForm.userId,
         title: TodoForm.title,
         completed: TodoForm.isCompleted,
       })
       .then((res) => {
-        console.log("helllo roshan", res.data);
+        console.log("helllo ", res.data);
         getTodosData();
       });
+      console.log("Post Item Data", TodoForm);
   }
 
   function getAll() {}
-
-  // console.log(TodoForm);
-  //   useEffect(() => {
-  //     axios.get('http://localhost:8000/api/todos').then((res) => {
-  //       const responseTodos = res.data;
-  //       setTodos(responseTodos);
-  //     })
-  //   }, []);
 
   return (
     <>
