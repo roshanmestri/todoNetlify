@@ -1,203 +1,143 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
-import { CircularProgress, Link } from "@material-ui/core"
+import { CircularProgress, Link } from "@material-ui/core";
 
-import axios from "axios"
-import TodoCard from '../component/TodoCard'
-// import { useContext } from 'react'
-import { todosContext } from '../contexts/TodosContext'
-import {UseTodo} from "../contexts/TodosContext"
-import { useNavigate } from 'react-router-dom'
+import axios from "axios";
+import TodoCard from "../component/TodoCard";
+import { todosContext } from "../contexts/TodosContext";
+import { UseTodo } from "../contexts/TodosContext"
+import { useNavigate } from "react-router-dom";
+import { Navbar, Row } from "react-bootstrap";
+import styled from "styled-components";
 
 function Todos() {
   const navigate = useNavigate();
-  let {todos ,getTodosData} = UseTodo(); //has value =todos
+  let { todos, getTodosData } = UseTodo(); //has value =todos
   // const [todos, setTodos] = useState({})
-  const [TodoForm , setTodoForm] = useState({
-    title : "",
-    userId : "",
-    isCompleted : ""
+  const [TodoForm, setTodoForm] = useState({
+    title: "",
+    userId: "",
+    isCompleted: "",
   });
- console.log(todos);
+  console.log(todos);
 
-  function handle(e){
-    const newData = {...TodoForm};
+  function handle(e) {
+    const newData = { ...TodoForm };
     newData[e.target.id] = e.target.value;
-    setTodoForm(newData)
+    setTodoForm(newData);
     console.log(newData);
   }
 
-  function Onsubmit(e){
+  function Onsubmit(e) {
     e.preventDefault();
-    axios.post("http://localhost:8000/api/todos", {
-      userId : TodoForm.userId,
-      title : TodoForm.title,
-      completed : TodoForm.isCompleted
-    }).then(res => {
-      console.log(res.data);
-      getTodosData();
-    })
-  } 
-
-
-  function getAll (){
-    
+    axios
+      .post("https://jsonplaceholder.typicode.com/todos", {
+        userId: TodoForm.userId,
+        title: TodoForm.title,
+        completed: TodoForm.isCompleted,
+      })
+      .then((res) => {
+        console.log("helllo roshan", res.data);
+        getTodosData();
+      });
   }
 
-// console.log(TodoForm);
-//   useEffect(() => {
-//     axios.get('http://localhost:8000/api/todos').then((res) => {
-//       const responseTodos = res.data; 
-//       setTodos(responseTodos);
-//     })  
-//   }, []);
+  function getAll() {}
+
+  // console.log(TodoForm);
+  //   useEffect(() => {
+  //     axios.get('http://localhost:8000/api/todos').then((res) => {
+  //       const responseTodos = res.data;
+  //       setTodos(responseTodos);
+  //     })
+  //   }, []);
 
   return (
-   <>
-  <button onClick={() => navigate('/login')}>Sign In</button>
-   
-    <form action="/todos" method='POST' onSubmit={(e) => Onsubmit(e)} style={{marginTop:"70px"}}>
-    <div>
-         <label htmlFor="">Title</label>
-        <input onChange={(e) => handle(e)} id="title" value={TodoForm.title} type="text" placeholder='title' /> <br />
-    </div>
+    <>
+      {/* <button onClick={() => navigate('/login')}>Sign In</button> */}
+     <Navbar style={{display:"flex" ,justifyContent:"center" ,fontWeight:"700px" , fontSize:"3rem" ,backgroundColor:"lightBlue"}}>Todolist React app</Navbar>
+      <form
+        action="/todos"
+        method="POST"
+        onSubmit={(e) => Onsubmit(e)}
+        style={{ marginTop: "70px" }}
+      >
+        <div>
+          <label htmlFor="">Title</label>
+          <input
+            onChange={(e) => handle(e)}
+            id="title"
+            value={TodoForm.title}
+            type="text"
+            placeholder="title"
+          />{" "}
+          <br />
+        </div>
 
-    <div>
-         <label htmlFor="">User ID</label>
-        <input onChange={(e) => handle(e)} id="userId" value={TodoForm.userId} type="text" placeholder='User Id' /> <br />
-    </div>
+        <div>
+          <label htmlFor="">User ID</label>
+          <input
+            onChange={(e) => handle(e)}
+            id="userId"
+            value={TodoForm.userId}
+            type="text"
+            placeholder="User Id"
+          />{" "}
+          <br />
+        </div>
 
-    <div>
-      <label htmlFor="isCompleted">True : </label>
-      <input onChange={(e) => setTodoForm(prev=>({...prev,isCompleted:e.target.checked}))} value={TodoForm.isCompleted} id="isCompleted"   type="radio"  name='isCompleted' />
+        <div>
+          <label htmlFor="isCompleted">True : </label>
+          <input
+            onChange={(e) =>
+              setTodoForm((prev) => ({
+                ...prev,
+                isCompleted: e.target.checked,
+              }))
+            }
+            value={TodoForm.isCompleted}
+            id="isCompleted"
+            type="radio"
+            name="isCompleted"
+          />
 
-      <label htmlFor="isCompleted2">False</label>
-      <input onChange={(e) => setTodoForm(prev=>({...prev, isCompleted:false}))}    type="radio" id="isCompleted" name='isCompleted' />
-    </div>
-    
-    <button style={{border : "3px solid blue" ,
-  margin:"20px"}}>Save</button>
-      
-  </form>
-  { todos?.length ?
-   (
-   <div style={{display:"flex",flexWrap:"wrap" }}>
-    {
-    todos?.map(todo =>  <TodoCard todo ={todo}/>)
-    }
-  </div>
+          <label htmlFor="isCompleted2">False</label>
+          <input
+            onChange={(e) =>
+              setTodoForm((prev) => ({ ...prev, isCompleted: false }))
+            }
+            type="radio"
+            id="isCompleted"
+            name="isCompleted"
+          />
+        </div>
 
-   )
-    :
-    <CircularProgress/>}
-   
-   </>
+        <button style={{ border: "3px solid blue", margin: "20px" }}>
+          Save
+        </button>
+      </form>
+      {todos?.length ? (
+         <div >
+         <List className="mt-3 row">
+             {todos.map((todo) => (
+                 <TodoCard todo={todo} />
+             ))}
+         </List>
+     </div>
+      ) : (
+        <CircularProgress />
+      )}
+    </>
   );
 }
+const List = styled(Row)`
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  margin: 0 0 1rem 2rem;
+  margin:0 ;
+  padding: 0 3rem;
+`
+export default Todos;
 
-export default Todos
-
-
- 
-// import axios from "axios";
-// import React, {useState , useEffect} from "react";
-
-// function Todos(){
-//   const [todoData , setTodoData] = useState([]);
-//   useEffect(() =>{
-//     // fetch("http://localhost:8000/api/todos").then((res) =>{
-//     //   res.json().then((resp)=>{
-//     //     console.warn("result" , resp);
-//     //     setTodoData(resp)
-//     //   })
-//     // })
-//     axios.get("http://localhost:8000/api/todos").then(res=>console.log(res.data))
-//   }, [])
-//   console.warn(todoData)
- 
-//   return(
-//     <div>
-//       <h1>Get API Call</h1>
-//     </div>
-//   )
-// }
-
-// export default Todos;
-
-
-
-
-
-// import React, { useState } from 'react'
-
-// import todo from '../assets/images.png'
-
-// function Todos() {
-
-//   const [inputData, setInputData] = useState('');
-//   const [items, setItem] = useState([])
-
-//   const addItem = () => {
-//     if (!inputData) {
-
-//     }
-//     else {
-//       setItem([...items, inputData])
-//       setInputData('')
-//     }
-//   }
-
-//   const deleteItem  =(id) =>{
-//     const updatedItems= items.filter((elm , ind ) => {
-//       return ind !== id
-//     });
-//     setItem(updatedItems)
-//   }
-
-// const removeAll =() =>{
-//   setItem([])
-// }
-
-//   console.log(items);
-//   return (
-//     <div className='main-div'>
-//       <div className='child-div'>
-//         <figure>
-//           <img src={todo} alt="" />
-//           <figcaption>Add your list here</figcaption>
-
-//           <div className='addItems'>
-//             <input type="text" placeholder='add Items ...'
-//               value={inputData} onChange={(e) => setInputData(e.target.value)}
-//             />
-//             <i className="fa-sharp fa-solid fa-plus" title='add item' onClick={addItem}></i>
-//           </div>
-
-//           <div className='showItems'>
-//             {
-//               items.map((elm, ind) => {
-//                 return (
-//                   <div className='eachItem' key={ind}>
-//                     <h3 style={{ display: "inline", marginRight: "300px", backgroundColor: "purple", color: "white" }}>{elm}</h3>
-//                     <i className="far fa-trash-alt add btn" title='Delete item' onClick={() => deleteItem(ind)}></i>
-//                   </div>
-
-//                 )
-
-//               })
-
-//             }
-
-//           </div>
-
-//           <div className='showItems'>
-//             <button className=' btn ' onClick={() => removeAll()}> <span> CHECK LIST</span></button>
-//           </div>
-//         </figure>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-// export default Todos
