@@ -14,13 +14,17 @@ const TodoCard = (props) => {
 
   const navigate = useNavigate();
 
+
+
+  //deleting Todo  api call
   const deleteTodo = (e, id) => {
     e.preventDefault();
+    navigate('/')
     // 192.168.1.54:8000 IP
     axios
       .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
       .then((res) => {
-        console.log("deleted", res);
+        console.log("Todo deleted", res);
         getTodosData();
       })
       .catch((err) => console.log(err));
@@ -39,7 +43,7 @@ const TodoCard = (props) => {
                         </div>
                     </div>
                 </div>
-                <ButtonContainer>
+                <ButtonContainer onClick={(e,id)=>deleteTodo(e ,id)}>
                     <Button className="text-center" style={{ cursor: 'pointer' }}>Delete</Button>
                 </ButtonContainer>
             </StyledCard>
