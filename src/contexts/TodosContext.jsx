@@ -6,6 +6,7 @@ const TodosContextProvider = ({children}) =>{
     const [todos, setTodos] = useState([])
     const[user , SetUser] = useState({})
     const getTodosData=()=>{
+        //Use  https://jsonplaceholder.typicode.com/todos to fetch all todos
         axios.get(' https://jsonplaceholder.typicode.com/todos?_start=0&_limit=10').then((res) => {
             setTodos(res.data);
           });  
